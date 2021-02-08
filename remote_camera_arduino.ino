@@ -1,4 +1,4 @@
-// Version 1 du 12/12/2020
+// Version 3 du 25/01/2020
 
 // Capteur de tour + Bouton photo + Prise de photo (D9 D10 D11)
 // cable blanc un sur le GND, l'autre sur le 9
@@ -8,7 +8,7 @@ int bouton = {10};   // bouton de prise de photo
 int shoot = {11};   // actionneur de photo
 int shootled = {8}; //la led qui sera activé quand on prend une photo
 int tourled = {13}; // la led qui sera activé quand on fait un tour 
-int tmax = 3; // pour faire 5 tours de roues avant de déclencher soit 10m (roue de 700)
+int tmax = 9; // pour faire 5 tours de roues avant de déclencher soit 10m (roue de 700)
 // int tmax = 8;  pour faire 8 tours de roues avant de déclencher soit 10m (roue de brompton)
 // appui sur clavier = 16 ms au moins (5% à
 
@@ -28,14 +28,8 @@ void setup() {
 void loop() {
   
     for (int ntour = 0; ntour < tmax;) {  // on peut ne pas mettre de 3eme membre?
-        if (digitalRead(tour) == LOW) {
-            digitalWrite(tourled, HIGH);
-            ntour++;
-            while (digitalRead(tour) == LOW){
-                delay(10);
-            }
-           digitalWrite(tourled, LOW);
-        }
+        ntour++;
+        delay(100);
         if (digitalRead(bouton) == LOW) {
             digitalWrite(tourled, HIGH);
             ntour = tour+ tmax;
@@ -47,7 +41,7 @@ void loop() {
     }
     digitalWrite(shoot, HIGH); //le but est de shunter un interupteur
     digitalWrite(tourled, HIGH);
-    delay(100);
+    delay(101);
     digitalWrite(shoot, LOW); // reste appuyer jusqu'a la prochaine photo
     digitalWrite(tourled, LOW);
 }
