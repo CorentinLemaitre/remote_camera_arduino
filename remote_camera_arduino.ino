@@ -1,12 +1,14 @@
-// Version 1 du 05/05/2019
+// Version 1 du 12/12/2020
 
 // Capteur de tour + Bouton photo + Prise de photo (D9 D10 D11)
-int tour = {3};     // compteur de tour
-int bouton = {7};   // bouton de prise de photo
-int shoot = {12};   // actionneur de photo
-int shootled = {10}; // la led qui sera activé quand on prend une photo
+// cable blanc un sur le GND, l'autre sur le 9
+// cable 
+int tour = {9};     // compteur de tour
+int bouton = {10};   // bouton de prise de photo
+int shoot = {11};   // actionneur de photo
+int shootled = {8}; //la led qui sera activé quand on prend une photo
 int tourled = {13}; // la led qui sera activé quand on fait un tour 
-int tmax = 5; // pour faire 5 tours de roues avant de déclencher soit 10m (roue de 700)
+int tmax = 3; // pour faire 5 tours de roues avant de déclencher soit 10m (roue de 700)
 // int tmax = 8;  pour faire 8 tours de roues avant de déclencher soit 10m (roue de brompton)
 // appui sur clavier = 16 ms au moins (5% à
 
@@ -95,4 +97,4 @@ void loop() {
         }
     }
 }
-*/}
+*/
