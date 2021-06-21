@@ -40,14 +40,14 @@ void loop() {
     if (digitalRead(bouton) == LOW) {
       digitalWrite(led, HIGH);
       button_timer = millis();
-      while (digitalRead(bouton) == LOW) {
+      while (digitalRead(bouton) == LOW && millis() - button_timer <= 2000L) {
         delay(10);
       }
       digitalWrite(led, LOW);
-      if (millis()-button_timer > 2000L) {
-        auto_mode = false;
+      if (millis() - button_timer > 2000L) {
+        changement_mode();
       }
-      else if (capture == 1) {
+      else if (capture == 1) {  // commutation prise de vue en continu ou pas
         capture = 0;
       }
       else {
@@ -74,15 +74,16 @@ void loop() {
     if (digitalRead(bouton) == LOW) {
       digitalWrite(led, HIGH);
       button_timer = millis();
-      while (digitalRead(bouton) == LOW) {
+      while (digitalRead(bouton) == LOW && millis() - button_timer <= 2000L) {
         delay(10);
       }
-      if (millis()-button_timer > 2000L) {
-        auto_mode = true;
-        capture = 1;      // on active le mode prise de vue automatique
-      }
-      ntour = tmax;
       digitalWrite(led, LOW);
+      if (millis() - button_timer > 2000L) {
+        changement_mode();
+      }
+      else {
+        ntour = tmax;
+      }
     }
   }
 
@@ -95,4 +96,43 @@ void prendre_photo()
   delay(100);                     // délai pour prise en compte de l'appui prise de photo
   digitalWrite(action_pin, LOW);
   digitalWrite(led, LOW);
+}
+
+void changement_mode () {
+  if (auto_mode) {
+    auto_mode = false;
+    clignoter();
+  }
+  else {
+    auto_mode = true;
+    clignoter();
+    // capture = 1;                   // on active si désiré le mode prise de vue ayu redémarage
+    action_time = millis() + 1000L;   // on règle la valeur du compteur pour une prise de vue
+  }
+}
+
+void lire_bouton () {       // fonction a activer après modif de la pause en mode auto
+
+  button_timer = millis();
+  if (digitalRead(bouton) == LOW) {
+    digitalWrite(led, HIGH);
+    while (digitalRead(bouton) == LOW && millis() - button_timer <= 2000L) {
+      delay(10);
+    }
+    digitalWrite(led, LOW);
+  }
+}
+
+void clignoter()
+{
+  digitalWrite(led, LOW);
+  delay (1000);
+  digitalWrite(led, HIGH);
+  delay (250);
+  digitalWrite(led, LOW);
+  delay (250);
+  digitalWrite(led, HIGH);
+  delay (250);
+  digitalWrite(led, LOW);
+  delay (250);
 }
