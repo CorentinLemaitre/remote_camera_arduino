@@ -6,6 +6,7 @@ int bouton = 10;        // bouton de prise de photo
 int action_pin = 11;    // actionneur de photo
 int led = 13;
 int capture = 1;
+int logger = A0;
 unsigned long action_time = 3000;
 bool auto_mode = true;
 int ntour = 0;
@@ -17,13 +18,12 @@ unsigned long button_timer ;
 void setup() {
   pinMode(bouton, INPUT_PULLUP);
   pinMode(action_pin, OUTPUT);
+  pinMode(logger, OUTPUT);
   pinMode(led, OUTPUT);
   digitalWrite(action_pin, LOW);
-
+  digitalWrite(logger, LOW);
+  
   pinMode(capteur, INPUT_PULLUP);
-  pinMode(action_pin, OUTPUT);
-  pinMode(led, OUTPUT);
-  digitalWrite(action_pin, LOW);
 }
 
 
@@ -92,9 +92,11 @@ void loop() {
 void prendre_photo()
 {
   digitalWrite(action_pin, HIGH); // shunt interupteur de prise de photo via optocoupleur
+  digitalWrite(logger, HIGH); // lance un log sur le arduino 2
   digitalWrite(led, HIGH);
   delay(100);                     // délai pour prise en compte de l'appui prise de photo
   digitalWrite(action_pin, LOW);
+  digitalWrite(logger, LOW);
   digitalWrite(led, LOW);
 }
 
